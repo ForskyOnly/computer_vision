@@ -50,11 +50,11 @@ def draw_preds(image, preds):
             x1, y1 = int(box[0]), int(box[1])
             x2, y2 = int(box[0] + box[2]), int(box[1] + box[3])
 
-            # Dessiner le rectangle
+            # Dessine le rectangle
             draw.rectangle([x1, y1, x2, y2], outline=(255, 0, 0), width=2)
-
-            # Ajouter le texte
             text = f"Classe : {result.names[int(box[5])]}, Confiance : {box[4]}"
+            
+            # Ajout du texte
             draw.text((x1, y1-10), text, fill=(36, 255, 12))
 
     return image

@@ -1,3 +1,4 @@
+# Importer les bibliothèques nécessaires
 from ultralytics import YOLO
 from streamlit_webrtc import VideoTransformerBase, webrtc_streamer
 import streamlit as st
@@ -6,17 +7,39 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 def load_model():
+    """
+    Charger le modèle YOLO à partir du fichier 'best.pt'.
+    
+    Returns:
+    model: Objet YOLO prêt à effectuer des prédictions.
+    """
     model = YOLO("best.pt")
     return model
 
 # Créer une classe pour transformer le flux vidéo
 class VideoTransformer(VideoTransformerBase):
     def __init__(self, confidence_threshold, overlap_threshold):
+        """
+        Initialiser le VideoTransformer avec le modèle, un seuil de confiance et un seuil de recouvrement.
+        
+        Args:
+        confidence_threshold (float): Seuil de confiance pour la prédiction.
+        overlap_threshold (float): Seuil de recouvrement pour la suppression non-maximale.
+        """
         self.model = load_model()
         self.confidence_threshold = confidence_threshold
         self.overlap_threshold = overlap_threshold
 
     def transform(self, frame):
+        """
+        Transformer un frame de la vidéo en détectant les objets à l'aide du modèle YOLO et en dessinant les résultats.
+
+        Args:
+        frame (np.ndarray): Frame de la vidéo à analyser.
+
+        Returns:
+        img (np.ndarray): Image avec les prédictions dessinées.
+        """
         img = frame.to_ndarray(format="bgr24")
 
         # Appliquer le modèle
@@ -40,42 +63,51 @@ class VideoTransformer(VideoTransformerBase):
 
         return img
 
-# Dessiner les prédictions sur l'image
 def draw_preds(image, preds):
+    """
+    Dessiner les prédictions sur l'image.
+
+    Args:
+    image (PIL.Image): Image sur laquelle dessiner les prédictions.
+    preds (list): Liste de prédictions à dessiner.
+
+    Returns:
+    image (PIL.Image): Image avec les prédictions dessinées.
+    """
     draw = ImageDraw.Draw(image)
 
     for i, result in enumerate(preds):
         for j, box in enumerate(result.boxes.data):
-            # Convertir les coordonnées des boîtes
+            # Convertion des coordonnées des boites
             x1, y1 = int(box[0]), int(box[1])
             x2, y2 = int(box[0] + box[2]), int(box[1] + box[3])
-
-            # Dessiner le rectangle
+            
+            # Dessine le rectangle
             draw.rectangle([x1, y1, x2, y2], outline=(255, 0, 0), width=2)
-
-            # Ajouter le texte
             text = f"Classe : {result.names[int(box[5])]}, Confiance : {box[4]}"
+            
+            # Ajout du texte
             draw.text((x1, y1-10), text, fill=(36, 255, 12))
 
     return image
 
-# Streamlit app
 def app():
+    """
+    Fonction principale pour l'application Streamlit. Gère l'interaction avec l'utilisateur et affiche les résultats.
+    """
     st.title("Alphabet du langage des signes")
     st.sidebar.title("Réglages")
 
-    # Charger le modèle
     model = load_model()
 
-    # Paramètres réglables
+    # Paramètres conf et iou
     confidence_threshold = st.sidebar.slider("Confidence Threshold:", 0.0, 1.0, 0.5, 0.01)
     overlap_threshold = st.sidebar.slider("Overlap Threshold: ", 0.0, 1.0, 0.2, 0.01)
 
-    # Options d'utilisation
-    option = st.selectbox("Méthode de détéction", ("Camera", "Image"))
+    option = st.sidebar.selectbox("Méthode de détéction", ("Image", "Camera"))
 
     if option == "Image":
-        uploaded_file = st.file_uploader("choisir une image", type=['png', 'jpg', 'jpeg'])
+        uploaded_file = st.sidebar.file_uploader("choisir une image", type=['png', 'jpg', 'jpeg'])
         if uploaded_file is not None:
             image = Image.open(uploaded_file)
 
@@ -88,13 +120,13 @@ def app():
             if st.button("Prédire"):
                 frame = np.array(image)
 
-                # Effectuer les prédictions sur l'image pivotée
+                # Effectue les prédictions sur l'image pivotée
                 preds = model.predict(source=frame, conf=confidence_threshold, iou=overlap_threshold, save=False)
 
-                # Dessiner les prédictions sur l'image
+                # Dessine les prédictions sur l'image
                 image_with_preds = draw_preds(image, preds)
 
-                # Afficher l'image avec les prédictions
+                # Affiche l'image avec les prédictions
                 st.image(image_with_preds, caption="Image prédite", use_column_width=True)
 
                 # Afficher les prédictions
@@ -111,3 +143,4 @@ def app():
         webrtc_streamer(key="example", video_transformer_factory=lambda: VideoTransformer(confidence_threshold, overlap_threshold))
 
 app()
+
