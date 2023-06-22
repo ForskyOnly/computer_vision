@@ -66,7 +66,7 @@ def app():
     option = st.sidebar.selectbox("Options D'utilisation : ", ("Image", "Camera"))
     
     if option == "Image":
-        st.header("Détéction par image ")
+        st.header("Détéction des lettres par image ")
         uploaded_file = st.file_uploader("Télécharger une image", type=['png', 'jpg', 'jpeg'])
         if uploaded_file is not None:
             image = Image.open(uploaded_file)
@@ -100,7 +100,7 @@ def app():
                         st.write(f"Classe : {result.names[int(box[5])]}")
 
     elif option == "Camera":
-        st.header("Détéction en temps réel")
+        st.header("Détéction des lettres en temps réel")
         webrtc_streamer(key="example", video_transformer_factory=VideoTransformer)
 
 # Run the app
