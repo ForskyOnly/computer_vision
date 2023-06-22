@@ -68,7 +68,7 @@ def app():
     model = load_model()
 
     # Paramètres réglables
-    confidence_threshold = st.sidebar.slider("Confidence Threshold:", 0.0, 1.0, 0.5, 0.01)
+    confidence_threshold = st.sidebar.slider("Confidence Threshold:", 0.0, 1.0, 0.3, 0.01)
     overlap_threshold = st.sidebar.slider("Overlap Threshold: ", 0.0, 1.0, 0.2, 0.01)
 
     # Options d'utilisation
