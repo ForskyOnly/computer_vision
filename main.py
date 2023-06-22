@@ -60,14 +60,14 @@ def draw_preds(image, preds):
 # Streamlit app
 def app():
     model = load_model()
-    st.header("YOLO Real Time Detection")
-    st.sidebar.title("Settings")
+    st.header("Alphanet du language des signes")
+    st.sidebar.title("Réglages")
     confidence_threshold = st.sidebar.slider("Confidence threshold", 0.0, 1.0, 0.5, 0.01)
-    option = st.sidebar.selectbox("Choose option", ("Image", "Camera"))
+    option = st.sidebar.selectbox("Options D'utilisation : ", ("Image", "Camera"))
     
     if option == "Image":
-        st.header("Image Processing")
-        uploaded_file = st.file_uploader("Upload an image", type=['png', 'jpg', 'jpeg'])
+        st.header("Détéction par image ")
+        uploaded_file = st.file_uploader("Télécharger une image", type=['png', 'jpg', 'jpeg'])
         if uploaded_file is not None:
             image = Image.open(uploaded_file)
 
@@ -77,7 +77,7 @@ def app():
             elif rotate_direction == "-90 degrees":
                 image = image.rotate(90)
 
-            if st.button("Predict"):
+            if st.button("Prédire"):
                 frame = np.array(image)
 
                 # Effectuer les prédictions sur l'image pivotée
@@ -87,21 +87,20 @@ def app():
                 image = draw_preds(image, preds)
 
                 # Afficher l'image avec les prédictions
-                st.image(image, caption='Predicted Image.', use_column_width=True)
+                st.image(image, caption="L'image prédit", use_column_width=True)
 
                 # Afficher les prédictions
                 for i, result in enumerate(preds):
-                    st.write(f"Résultat {i+1} :")
+                    st.write("Résultat :")
                     for j, box in enumerate(result.boxes.data):
-                        st.write(f"Boîte {j+1} :")
                         st.write(f"Position (x, y) : ({box[0]}, {box[1]})")
                         st.write(f"Largeur : {box[2]}")
                         st.write(f"Hauteur : {box[3]}")
                         st.write(f"Confiance : {box[4]}")
-                        st.write(f"Classe : {result.names[int(box[5])]})")
+                        st.write(f"Classe : {result.names[int(box[5])]}")
 
     elif option == "Camera":
-        st.header("Real Time Detection")
+        st.header("Détéction en temps réel")
         webrtc_streamer(key="example", video_transformer_factory=VideoTransformer)
 
 # Run the app
