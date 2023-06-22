@@ -11,14 +11,16 @@ def load_model():
 
 # Créer une classe pour transformer le flux vidéo
 class VideoTransformer(VideoTransformerBase):
-    def __init__(self):
+    def __init__(self, confidence_threshold, overlap_threshold):
         self.model = load_model()
+        self.confidence_threshold = confidence_threshold
+        self.overlap_threshold = overlap_threshold
 
     def transform(self, frame):
         img = frame.to_ndarray(format="bgr24")
 
         # Appliquer le modèle
-        preds = self.model.predict(source=img, conf=0.2, iou=0.2, save=False)
+        preds = self.model.predict(source=img, conf=self.confidence_threshold, iou=self.overlap_threshold, save=False)
 
         # Dessiner les résultats sur l'image
         for i, result in enumerate(preds):
@@ -33,7 +35,7 @@ class VideoTransformer(VideoTransformerBase):
                             (int(box[0]), int(box[1]-10)), 
                             cv2.FONT_HERSHEY_SIMPLEX, 
                             0.9, 
-                            (36,255,12), 
+                            (36, 255, 12), 
                             2)
 
         return img
@@ -53,45 +55,51 @@ def draw_preds(image, preds):
 
             # Ajouter le texte
             text = f"Classe : {result.names[int(box[5])]}, Confiance : {box[4]}"
-            draw.text((x1, y1-10), text, fill=(36,255,12))
+            draw.text((x1, y1-10), text, fill=(36, 255, 12))
 
     return image
 
 # Streamlit app
 def app():
-    model = load_model()
-    st.header("Alphanet du language des signes")
+    st.title("Alphabet du langage des signes")
     st.sidebar.title("Réglages")
-    confidence_threshold = st.sidebar.slider("Confidence threshold", 0.0, 1.0, 0.5, 0.01)
-    option = st.sidebar.selectbox("Options D'utilisation : ", ("Image", "Camera"))
-    
+
+    # Charger le modèle
+    model = load_model()
+
+    # Paramètres réglables
+    confidence_threshold = st.sidebar.slider("Confidence Threshold:", 0.0, 1.0, 0.5, 0.01)
+    overlap_threshold = st.sidebar.slider("Overlap Threshold: ", 0.0, 1.0, 0.2, 0.01)
+
+    # Options d'utilisation
+    option = st.selectbox("Méthode de détéction", ("Camera", "Image"))
+
     if option == "Image":
-        st.header("Détéction des lettres par image ")
-        uploaded_file = st.file_uploader("Télécharger une image", type=['png', 'jpg', 'jpeg'])
+        uploaded_file = st.file_uploader("choisir une image", type=['png', 'jpg', 'jpeg'])
         if uploaded_file is not None:
             image = Image.open(uploaded_file)
 
-            rotate_direction = st.sidebar.radio("Rotation", ["Original", "90 degrees", "-90 degrees"])
-            if rotate_direction == "90 degrees":
+            rotate_direction = st.sidebar.radio("Rotation", ["Original", "90 degrés", "-90 degrés"])
+            if rotate_direction == "90 degrés":
                 image = image.rotate(-90)
-            elif rotate_direction == "-90 degrees":
+            elif rotate_direction == "-90 degrés":
                 image = image.rotate(90)
 
             if st.button("Prédire"):
                 frame = np.array(image)
 
                 # Effectuer les prédictions sur l'image pivotée
-                preds = model.predict(source=frame, conf=confidence_threshold, iou=0.2, save=False)
+                preds = model.predict(source=frame, conf=confidence_threshold, iou=overlap_threshold, save=False)
 
                 # Dessiner les prédictions sur l'image
-                image = draw_preds(image, preds)
+                image_with_preds = draw_preds(image, preds)
 
                 # Afficher l'image avec les prédictions
-                st.image(image, caption="L'image prédit", use_column_width=True)
+                st.image(image_with_preds, caption="Image prédite", use_column_width=True)
 
                 # Afficher les prédictions
                 for i, result in enumerate(preds):
-                    st.write("Résultat :")
+                    st.write("Résultat:")
                     for j, box in enumerate(result.boxes.data):
                         st.write(f"Position (x, y) : ({box[0]}, {box[1]})")
                         st.write(f"Largeur : {box[2]}")
@@ -100,8 +108,6 @@ def app():
                         st.write(f"Classe : {result.names[int(box[5])]}")
 
     elif option == "Camera":
-        st.header("Détéction des lettres en temps réel")
-        webrtc_streamer(key="example", video_transformer_factory=VideoTransformer)
+        webrtc_streamer(key="example", video_transformer_factory=lambda: VideoTransformer(confidence_threshold, overlap_threshold))
 
-# Run the app
 app()
