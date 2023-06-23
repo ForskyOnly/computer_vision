@@ -10,6 +10,5 @@ COPY best.pt ./best.pt
 
 COPY . .
 
-EXPOSE 8501
 
-CMD ["streamlit", "run", "--server.enableCORS", "false", "main.py"]
+CMD ["streamlit", "run", "0.0.0.0:80", "main.py"]

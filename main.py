@@ -1,4 +1,3 @@
-# Importer les bibliothèques nécessaires
 from ultralytics import YOLO
 from streamlit_webrtc import VideoTransformerBase, webrtc_streamer
 import streamlit as st
