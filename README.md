@@ -38,7 +38,7 @@ Pour la problématique nous avons opté pour les lettres du langage des singes:
 ## Fichiers présent dans le depot: 
 
 
-- dbest.pt : Ce fichier contient le modéle entrainer pour détecter les signes 
+- best.pt : Ce fichier contient le modéle entrainer pour détecter les signes 
 - sing_language.ipynb : Ce fichier contient l'import du dataset, le modéle entrainer pour la problématique et quelques visualisation concernant les score obtenu par le modéle 
 - requirements.txt : Ce fichier contient les bibliothéque nécessaire pour installer et utiliser l'application
 - main.py : Ce fichier contient le programme principal de l'application streamlit 
@@ -46,16 +46,15 @@ Pour la problématique nous avons opté pour les lettres du langage des singes:
 ## Installation
 
 1. Clonez [ce dépôt.](https://github.com/ForskyOnly/computer_vision)
-2. Installez les dépendances avec `pip install`.
+2. Installez les dépendances avec `pip install -r requirements.txt`.
 
 
 ## Bibliothèque utilisées
 
-streamlit
-opencv-python
-Pillow
-ultralytics
-streamlit-webrtc
+- streamlit
+- opencv-python
+- ultralytics
+- streamlit-webrtc
 
 
 
@@ -76,7 +75,7 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 
 - le dataset à été telecharger depuis le site de Roboflow :
 
-@misc{ sign-language-sokdr_dataset,
+`@misc{ sign-language-sokdr_dataset,
     title = { sign language Dataset },
     type = { Open Source Dataset },
     author = { Roboflow 100 },
@@ -87,12 +86,12 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
     year = { 2023 },
     month = { may },
     note = { visited on 2023-06-23 },
-}
+}`
 - Le modéle (YOLOv8) a été choisi depuis le depot github de [ultralytics](https://github.com/ultralytics/ultralytics):
 
 ## Contributeurs: 
 
-- [Rubic](https://github.com/ForskyOnly/)
+- [Rubic](https://github.com/ForskyOnly)
 - [Noura](https://github.com/Noura-ou)
 
 ## Pistes d'amelioration :
