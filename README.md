@@ -14,11 +14,11 @@ Pour la problématique nous avons opté pour les lettres du langage des singes:
 ## Etapes projet: 
     
 - Choix d'une problématique : Identifiez un besoin spécifique dans le domaine de la vision par ordinateur que votre application résoudra.
-- Mise en œuvre de YOLO-v8 : Utilisez le modèle YOLO-v8 comme base pour votre application, en utilisant les poids pré-entraînés de COCO pour l'initialisation.
-- Récupération et préparation du dataset : Obtenez un ensemble de données approprié à votre problème depuis Roboflow, puis préparez et nettoyez les données pour l'entraînement.
-- Transfer Learning : Ré-entraînez le modèle YOLO-v8 en utilisant votre propre ensemble de données spécifique à votre problème.
-- Création d'une application avec Streamlit : Développez une application utilisant Streamlit, qui met en œuvre votre modèle entraîné et permet soit de faire des prédictions à partir d'images/vidéos uploadées, soit d'avoir des prédictions en direct à partir de la webcam de l'utilisateur.
-- Test et déploiement de l'application : Testez soigneusement l'application pour vous assurer de son bon fonctionnement, puis déployez-la sur Azure en utilisant Docker.
+- Mise en œuvre de YOLO-v8 : Utilisation du modèle YOLO-v8 comme base pour notre application, en utilisant les poids pré-entraînés de Yolo pour l'initialisation.
+- Récupération  du dataset : Obtention d'un ensemble de données depuis Roboflow.
+- Transfer Learning : Ré-entraînement du modèle YOLO-v8 en utilisant un ensemble de données spécifique au problème.
+- Création d'une application avec Streamlit : Développement d'une application en utilisant Streamlit, qui met en œuvre notre modèle entraîné et permet soit de faire des prédictions à partir d'images soit d'avoir des prédictions en direct à partir de la webcam de l'utilisateur.
+- Test et déploiement de l'application : Test et deploiement de l'application sur Azure en utilisant Docker.
 
 ## Fichiers présent dans le depot: 
 
