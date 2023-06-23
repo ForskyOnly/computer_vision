@@ -139,7 +139,10 @@ def app():
                         st.write(f"Classe : {resultat.names[int(box[5])]}")
 
     elif option == "Camera":
-        webrtc_streamer(key="example", video_transformer_factory=lambda: VideoTransformer(confidence_threshold, overlap_threshold))
+        rtc_configuration = {"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]}
+        webrtc_streamer(key="example", 
+                        video_transformer_factory=lambda: VideoTransformer(confidence_threshold, overlap_threshold), 
+                        rtc_configuration=rtc_configuration)
 
 app()
 
