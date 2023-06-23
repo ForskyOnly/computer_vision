@@ -3,40 +3,24 @@
 
 ## Context du projet
 
-Vous êtes désormais des ingénieurs en Machine Learning au sein de SightAI, une entreprise leader dans le domaine de la vision par ordinateur, réputée pour son innovation dans l'IA. Votre dernière mission a été de concevoir et d'entraîner des réseaux de neurones à partir de zéro ainsi que de réaliser du Transfer Learning sur des modèles pré-entraînés. Suite à la réussite de cette mission, vous voilà prêts pour un défi encore plus grand.
+Le projet "Vision par ordinateur pour la Langue des Signes" consiste à développer un système capable de reconnaître et d'interpréter les gestes de la Langue des Signes à partir d'images ou de vidéos. En utilisant des algorithmes de détection de mouvement et des modèles d'apprentissage profond, notre solution permettra une reconnaissance en temps réel des signes, facilitant ainsi la communication entre les personnes sourdes et entendantes. Notre objectif est de favoriser l'inclusion et la compréhension mutuelle, en contribuant à un monde plus accessible pour tous.
 
-Votre nouvelle mission, si vous l'acceptez, sera de concevoir une application qui intègre YOLO-v8, le dernier modèle d'IA pour la vision par ordinateur, le plus performant et sophistiqué de 2023. Cette application devra résoudre un problème de votre choix, dans le domaine de la vision par ordinateur, que vous aurez défini vous-mêmes. Vous devrez développer une application "quick and dirty", votre objectif est d'avoir une application fonctionnelle dans un délai court. En effet, c'est encore votre période d'essaie et votre manager souhaite tester votre capacité à implémenter un modèle dans une application simple.
-
-Pour cela, voici les étapes que vous devrez suivre :
-
-Choisir une problématique : Identifiez une problématique ou un besoin spécifique auquel votre application répondra. Vous vous baserez sur les datasets disponibles sur Roboflow pour trouver des pistes faisables.
-
-​
-Mise en œuvre de YOLO-v8 : Utilisez YOLO-v8 comme base pour votre modèle. Commencez par utiliser les poids pré-entraînés de COCO pour initialiser votre modèle.
-
-
-Récupération et préparation du dataset : Pour entraîner votre modèle à votre problème spécifique, vous utiliserez un ensemble de données que vous récupérerez sur Roboflow. Assurez-vous de préparer et de nettoyer correctement vos données pour l'entraînement.
-
-Transfer Learning : Effectuez du Transfer Learning en ré-entraînant votre modèle YOLO-v8 sur votre ensemble de données.
-
-Création d'une application avec Streamlit : Utilisez Streamlit pour développer une application qui met en œuvre votre modèle entraîné. Votre application doit intégrer l'une des fonctionnalités suivantes :
-
-- Permettre d'upload une image ou une vidéo et d'avoir les prédictions. (bounding boxes et classes)
-- Avoir des prédictions en live en utilisant la webcam de l'utilisateur.
-
-​
-L'application doit être simple, mais efficace (une approche "quick and dirty").
-
-
-Test et déploiement de l'application : Une fois votre application développée, testez-la pour vous assurer qu'elle fonctionne correctement et déployez-la sur Azure à l'aide de docker.
 
 # La problématique: 
 
 Pour la problématique nous avons opté pour les lettres du langage des singes:
 - le modéle entrainer prends en entré un signe sous forme d'image ou en direct via la caméra de l'utilisateur et renvoi la lettre qui corresponds au signe 
 
-## Fichiers présent dans le depot: 
+## Etapes projet  : 
+    
+- Choix d'une problématique : Identifiez un besoin spécifique dans le domaine de la vision par ordinateur que votre application résoudra.
+- Mise en œuvre de YOLO-v8 : Utilisez le modèle YOLO-v8 comme base pour votre application, en utilisant les poids pré-entraînés de COCO pour l'initialisation.
+- Récupération et préparation du dataset : Obtenez un ensemble de données approprié à votre problème depuis Roboflow, puis préparez et nettoyez les données pour l'entraînement.
+- Transfer Learning : Ré-entraînez le modèle YOLO-v8 en utilisant votre propre ensemble de données spécifique à votre problème.
+- Création d'une application avec Streamlit : Développez une application utilisant Streamlit, qui met en œuvre votre modèle entraîné et permet soit de faire des prédictions à partir d'images/vidéos uploadées, soit d'avoir des prédictions en direct à partir de la webcam de l'utilisateur.
+- Test et déploiement de l'application : Testez soigneusement l'application pour vous assurer de son bon fonctionnement, puis déployez-la sur Azure en utilisant Docker.
 
+## Fichiers présent dans le depot: 
 
 - best.pt : Ce fichier contient le modéle entrainer pour détecter les signes 
 - sing_language.ipynb : Ce fichier contient l'import du dataset, le modéle entrainer pour la problématique et quelques visualisation concernant les score obtenu par le modéle 
