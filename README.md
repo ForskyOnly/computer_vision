@@ -11,7 +11,7 @@ Le projet "Vision par ordinateur pour la Langue des Signes" consiste à dévelop
 Pour la problématique nous avons opté pour les lettres du langage des singes:
 - le modéle entrainer prends en entré un signe sous forme d'image ou en direct via la caméra de l'utilisateur et renvoi la lettre qui corresponds au signe 
 
-## Etapes projet  : 
+## Etapes projet: 
     
 - Choix d'une problématique : Identifiez un besoin spécifique dans le domaine de la vision par ordinateur que votre application résoudra.
 - Mise en œuvre de YOLO-v8 : Utilisez le modèle YOLO-v8 comme base pour votre application, en utilisant les poids pré-entraînés de COCO pour l'initialisation.
